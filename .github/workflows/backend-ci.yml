@@ -1,0 +1,56 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'backend/**', '.github/workflows/backend-ci.yml' ]
+  pull_request:
+    branches: [ main ]
+    paths: [ 'backend/**', '.github/workflows/backend-ci.yml' ]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: stable
+
+      - name: Go Format
+        run: gofmt -s -w . && git diff --exit-code
+        working-directory: ./backend
+
+      - name: Go Vet
+        run: go vet ./...
+        working-directory: ./backend
+
+      - name: Lint
+        uses: golangci/golangci-lint-action@v8
+        with:
+          version: latest
+          args: --timeout 5m
+          working-directory: ./backend
+
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: stable
+
+    - name: Build
+      run: go build -v ./...
+      working-directory: ./backend
+
+    - name: Test
+      run: go test -v ./...
+      working-directory: ./backend
