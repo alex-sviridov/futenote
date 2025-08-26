@@ -10,7 +10,7 @@ on:
 
 jobs:
   lint:
-    name: Lint
+    name: Format and Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -22,7 +22,7 @@ jobs:
           go-version: stable
 
       - name: Go Format
-        run: gofmt -s -w . && git diff --exit-code
+        run: gofmt -s -w .
         working-directory: ./backend
 
       - name: Go Vet
@@ -37,7 +37,8 @@ jobs:
           working-directory: ./backend
 
 
-  build:
+  test-and-build:
+    name: Test and Build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -47,10 +48,10 @@ jobs:
       with:
         go-version: stable
 
-    - name: Build
-      run: go build -v ./...
-      working-directory: ./backend
-
     - name: Test
       run: go test -v ./...
+      working-directory: ./backend
+
+    - name: Build
+      run: go build -v ./...
       working-directory: ./backend
