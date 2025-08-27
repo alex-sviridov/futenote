@@ -11,11 +11,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}/backend
-
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/backend
-
+  
 jobs:
   lint:
     name: Format and Lint
