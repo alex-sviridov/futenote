@@ -7,5 +7,10 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./tests/setup.js']
+  },
+  resolve: {
+    alias: {
+      '@': '/src'  // This allows you to use @ as an alias for /src in imports
+    }
   }
 })
