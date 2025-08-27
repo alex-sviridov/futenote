@@ -1,5 +1,5 @@
 # Multi-stage build for Go application
-FROM golang:1.25 AS builder
+FROM golang:1.25-alpine AS builder
 
 # Set working directory
 WORKDIR /app
@@ -18,7 +18,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o server .
 
 # Final stage - minimal runtime image
-FROM alpine:latest
+FROM alpine:3
 
 # Add ca-certificates for HTTPS calls
 RUN apk --no-cache add ca-certificates
