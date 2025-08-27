@@ -1,9 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import HelloWorld from '@/components/HelloWorld.vue';
+import NotesList from '@/components/NotesList.vue';
+import NotePage from '@/components/NotePage.vue';
 
 const routes = [
-  { path: '/', component: HelloWorld },
+  { path: '/', redirect: { name: 'notes' } },
+  { name: 'notes', path: '/notes', component: NotesList },
+  { name: 'note', path: '/notes/:id', component: NotePage },
 ]   
 
 const router = createRouter({
