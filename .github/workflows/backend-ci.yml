@@ -42,7 +42,7 @@ jobs:
 
 
   security-scan:
-    name: Build
+    name: Trivy Security Scan
     runs-on: ubuntu-24.04
     permissions:
       security-events: write
@@ -50,7 +50,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run Trivy vulnerability scanner in repo mode
+      - name: Run Trivy vulnerability scanner for ./backend
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
