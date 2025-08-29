@@ -44,6 +44,8 @@ jobs:
   security-scan:
     name: Build
     runs-on: ubuntu-24.04
+    permissions:
+      security-events: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -61,7 +63,7 @@ jobs:
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: 'trivy-backend-fs.sarif'
 
   test-and-build:
     needs: [security-scan]
