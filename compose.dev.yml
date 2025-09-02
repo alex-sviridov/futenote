@@ -1,0 +1,37 @@
+services:
+  backend:
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./backend/:/app/
+
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile.dev  
+    ports:
+      - 5173:5173
+    develop:
+      watch:
+        - path: ./frontend/src
+          target: /app/src
+          action: sync
+        - path: ./frontend/package.json
+          target: /app/package.json
+          action: restart
+        - path: ./frontend/vite.config.js
+          target: /app/vite.config.js
+          action: restart
+
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    networks:
+      - mynet
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - 8888:8080
