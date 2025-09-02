@@ -1,0 +1,4 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]

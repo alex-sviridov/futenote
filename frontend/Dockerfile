@@ -1,10 +1,13 @@
 # Multi-stage build for Vue.js application
-FROM node:22-alpine AS builder
+ARG NODE_VERSION=24
+
+FROM node:${NODE_VERSION}-alpine AS builder
 
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm npm ci 
 COPY . .
+
 RUN npm run build
 
 # Production stage - use non-root nginx

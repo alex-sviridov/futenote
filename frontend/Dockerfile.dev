@@ -1,0 +1,16 @@
+ARG NODE_VERSION=24
+
+FROM node:${NODE_VERSION}-alpine AS dev
+
+ENV NODE_ENV=development
+
+WORKDIR /app
+COPY --chown=node:node package*.json ./
+RUN --mount=type=cache,target=/root/.npm npm ci 
+COPY --chown=node:node . .
+
+USER node
+
+EXPOSE 5173
+
+CMD [ "npm", "run", "dev", "--", "--host" ]

@@ -1,5 +1,5 @@
 <template>
   <div>
-    Notes List
+    <h1 class="text-4xl">Notes List</h1>
   </div>
 </template>

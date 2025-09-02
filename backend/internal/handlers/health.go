@@ -13,6 +13,7 @@ import (
 func GetHealth() http.HandlerFunc {
 	type responseBody struct {
 		Uptime         string    `json:"Uptime"`
+		DBState        string    `json:"DBState"`
 		LastCommitHash string    `json:"LastCommitHash"`
 		LastCommitTime time.Time `json:"LastCommitTime"`
 		DirtyBuild     bool      `json:"DirtyBuild"`
@@ -40,6 +41,7 @@ func GetHealth() http.HandlerFunc {
 		w.WriteHeader(http.StatusOK)
 
 		res.Uptime = time.Since(up).String()
+		res.DBState = "OK"
 		if err := json.NewEncoder(w).Encode(res); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
